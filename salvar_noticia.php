@@ -23,15 +23,23 @@ $sql = "INSERT INTO noticias
                 ) 
             VALUES
                 (
-                    '$titulo',
-                    '$conteudo',
-                    '$autor',
-                    '$data'
+                    :titulo,
+                    :conteudo,
+                    :autor,
+                    :data
                 )
             ";
 
-// Executa a SQL no banco de dados conectado
-$resposta = $conexao->exec($sql);
+// Prepara a SQL para execução
+$consulta = $conexao->prepare($sql);
+
+// Atribui os valores a SQL e executar
+$consulta = $consulta->execute([
+    ':titulo' => $titulo,
+    ':conteudo' => $conteudo,
+    ':autor' => $autor,
+    ':data' => $data,
+]);
 
 // Verifica se a SQL foi executada com sucesso
 if ($resposta) {
